@@ -1,8 +1,19 @@
 FROM php:8.0-apache
 
+# Mettre à jour les paquets et installer PostgreSQL client récent
 RUN apt-get update && apt-get install -y \
-    libpq-dev \
-    && docker-php-ext-install pdo pdo_pgsql
+    wget \
+    gnupg2 \
+    lsb-release
+
+# Ajouter le repo PostgreSQL officiel pour obtenir une version récente de libpq
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list && \
+    wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
+    apt-get update && apt-get install -y \
+    libpq-dev postgresql-client
+
+# Installer les extensions PHP requises
+RUN docker-php-ext-install pdo pdo_pgsql
 
 COPY . /var/www/html/
 
