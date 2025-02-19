@@ -1,35 +1,28 @@
 <?php
-    class Database {
-        private static $instance = null;
-        private $pdo;
-        private function __construct() {
-           // ini_set('display_errors', 1);
-//error_reporting(E_ALL);
-        //try {
-            //$bd = 'pgsql:host=localhost;port=5432;dbname=ARCADIA;user=postgres;password=barrywhite92';
-           // $endpoint = 'ep-noisy-queen-a8vi6crd-pooler';
-//$bd = "pgsql:host=ep-noisy-queen-a8vi6crd-pooler.eastus2.azure.neon.tech;port=5432;dbname=ARCADIA;user=neondb_owner;password=npg_KBeldUjMT7D5;sslmode=require;options=endpoint%3D$endpoint";
-            //$bd = 'pgsql:host=ep-noisy-queen-a8vi6crd-pooler.eastus2.azure.neon.tech;port=5432;dbname=ARCADIA;user=neondb_owner;password=npg_KBeldUjMT7D5;sslmode=require';
-            # cat .env | grep DATABASE_URL
-            //$bd="postgresql://neondb_owner:npg_KBeldUjMT7D5@ep-noisy-queen-a8vi6crd-pooler.eastus2.azure.neon.tech/ARCADIA?sslmode=require&charset=utf8";   
-            
-            //$this->pdo = new PDO($bd);
-            //$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        //} catch (PDOException $e) {
-           // die("Erreur de connexion : " . $e->getMessage());
-        //}
-         $dsn = "pgsql:host=ep-noisy-queen-a8vi6crd-pooler.eastus2.azure.neon.tech;port=5432;dbname=ARCADIA;sslmode=require;application_name=myapp";
+class Database {
+    private static $instance = null;
+    private $pdo;
 
-try {
-    $pdo = new PDO($dsn, 'neondb_owner', 'npg_KBeldUjMT7D5', [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-    ]);
-} catch (PDOException $e) {
-    print_r("Erreur de connexion : " . $e->getMessage());
-}
+    private function __construct() {
+        ini_set('display_errors', 1);
+        error_reporting(E_ALL);
+        try {
+            $bd = "pgsql:host=ep-noisy-queen-a8vi6crd-pooler.eastus2.azure.neon.tech;port=5432;dbname=ARCADIA;sslmode=require";
+            $this->pdo = new PDO($bd, 'neondb_owner', 'npg_KBeldUjMT7D5');
+            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+            // Vérifier la connexion
+            if (!$this->pdo) {
+                throw new Exception('Impossible de se connecter à la base de données.');
+            }
 
+        } catch (PDOException $e) {
+            die("Erreur de connexion : " . $e->getMessage());
+        } catch (Exception $e) {
+            die("Erreur : " . $e->getMessage());
+        }
     }
+
     public static function getInstance() {
         if (self::$instance === null) {
             self::$instance = new Database();
