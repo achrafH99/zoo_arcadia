@@ -4,7 +4,12 @@ FROM php:8.0-apache
 RUN apt-get update && apt-get install -y \
     wget \
     gnupg2 \
-    lsb-release
+    lsb-release \
+    libcurl4-openssl-dev \
+    pkg-config \
+    libssl-dev \
+    libsasl2-dev \
+    libz-dev
 
 # Ajouter le repo PostgreSQL officiel pour obtenir une version récente de libpq
 RUN echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list && \
@@ -14,6 +19,10 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg ma
 
 # Installer les extensions PHP requises
 RUN docker-php-ext-install pdo pdo_pgsql
+
+# Installer l'extension MongoDB pour PHP
+RUN pecl install mongodb && \
+    docker-php-ext-enable mongodb
 
 COPY . /var/www/html/
 
