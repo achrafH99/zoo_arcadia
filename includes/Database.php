@@ -3,8 +3,8 @@
         private static $instance = null;
         private $pdo;
         private function __construct() {
-            ini_set('display_errors', 1);
-error_reporting(E_ALL);
+           // ini_set('display_errors', 1);
+//error_reporting(E_ALL);
         //try {
             //$bd = 'pgsql:host=localhost;port=5432;dbname=ARCADIA;user=postgres;password=barrywhite92';
            // $endpoint = 'ep-noisy-queen-a8vi6crd-pooler';
