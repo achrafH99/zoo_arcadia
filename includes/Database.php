@@ -4,8 +4,6 @@ class Database {
     private $pdo;
 
     private function __construct() {
-        ini_set('display_errors', 1);
-        error_reporting(E_ALL);
         try {
             $bd = "pgsql:host=ep-noisy-queen-a8vi6crd-pooler.eastus2.azure.neon.tech;port=5432;dbname=ARCADIA;sslmode=require";
             $this->pdo = new PDO($bd, 'neondb_owner', 'npg_KBeldUjMT7D5');
