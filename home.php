@@ -1,9 +1,9 @@
 <?php
     //require 'vendor/autoload.php';
+    include 'includes/header.php';
     require_once './controllers/AvisController.php';
     require_once './controllers/HabitatController.php';
     require_once './controllers/ServicesController.php';
-    include 'includes/header.php';
     //include './includes/config.php';
     /*if (!isset($_SESSION['user']))
     {
