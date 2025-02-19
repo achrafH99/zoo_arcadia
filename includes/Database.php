@@ -18,16 +18,16 @@ error_reporting(E_ALL);
         //} catch (PDOException $e) {
            // die("Erreur de connexion : " . $e->getMessage());
         //}
-            $endpoint = 'ep-noisy-queen-a8vi6crd-pooler';
-$dsn = "pgsql:host=ep-noisy-queen-a8vi6crd-pooler.eastus2.azure.neon.tech;port=5432;dbname=ARCADIA;sslmode=require;options=-c%20endpoint=$endpoint";
+          $dsn = "pgsql:host=ep-noisy-queen-a8vi6crd-pooler.eastus2.azure.neon.tech;port=5432;dbname=ARCADIA;user=neondb_owner;password=npg_KBeldUjMT7D5;sslmode=require&pooling=off";
 
 try {
-    $pdo = new PDO($dsn, 'neondb_owner', 'npg_KBeldUjMT7D5', [
+    $pdo = new PDO($dsn, null, null, [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
     ]);
 } catch (PDOException $e) {
     die("Erreur de connexion : " . $e->getMessage());
 }
+
     }
     public static function getInstance() {
         if (self::$instance === null) {
